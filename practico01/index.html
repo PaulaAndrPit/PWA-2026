@@ -12,6 +12,10 @@
         edad: {{ edad }} <br>
         ciudad: {{ ciudad }} <br>
         <p>Hola, mi nombre es {{ nombre }}, tengo {{ edad }} años y vivo en {{ ciudad }}.</p>
+        <hr>
+        Contador : {{ contador }} 
+        <button @click="contador++"> Incrementar </button> 
+        <button @click="contador--"> Decrementar </button> 
     </div>
     <script>
         var app = new Vue({
@@ -19,7 +23,16 @@
             data: {
                 nombre: 'Ana García',
                 edad: '30',
-                ciudad: 'Tupungato'
+                ciudad: 'Tupungato',
+                contador: 0
+            },
+            computed: {
+                contadorValido() {
+                    if(this.contador < 0){
+                        this.contador = 0;
+                    }
+                     return this.contador;
+                    }
             }
         });
     
