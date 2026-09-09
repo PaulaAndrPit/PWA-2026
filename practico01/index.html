@@ -3,9 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <title>Practico 01 - PWA</title>
 </head>
 <body>
-
+    <div id="mi-app">
+        nombre: {{ nombre }} <br>
+        edad: {{ edad }} <br>
+        ciudad: {{ ciudad }} <br>
+        <p>Hola, mi nombre es {{ nombre }}, tengo {{ edad }} años y vivo en {{ ciudad }}.</p>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#mi-app',
+            data: {
+                nombre: 'Ana García',
+                edad: '30',
+                ciudad: 'Tupungato'
+            }
+        });
+    
+    </script>
 </body>
 </html>
