@@ -17,7 +17,19 @@
         <button @click="contador++"> Incrementar </button> 
         <button @click="contador--"> Decrementar </button> 
         <hr>
+        Esta es mi lista de tareas: <br>
+        <ul>
+            <li v-for="tarea in tareas" :key="tarea.id">
+                <input type="checkbox" v-model="tarea.completada">
+                {{ tarea.id }}
+                {{ tarea.texto }}
+            </li>
+        </ul>
+        <input type="text" v-model="nuevaTarea" placeholder="Nueva tarea">
+        <button @click="agregarTarea">Agregar tarea</button><br>
 
+        Tareas pendientes: {{ tareasPendientes.length }} <br>
+        Total de tareas: {{ totalTareas }}
     </div>
     <script>
         var app = new Vue({
@@ -26,7 +38,16 @@
                 nombre: 'Ana García',
                 edad: '30',
                 ciudad: 'Tupungato',
-                contador: 0
+                contador: 0,
+                nuevaTarea: '',
+                tareas: [
+                        {
+                            id: '1',
+                            texto: 'Aprender Vue',
+                            completada: false
+                        }
+                    ]
+                
             },
             computed: {
                 contadorValido() {
@@ -34,7 +55,27 @@
                         this.contador = 0;
                     }
                      return this.contador;
+                    },
+                tareasPendientes: function() {
+                    return this.tareas.filter(function(tarea) {
+                return !tarea.completada;
+                });
+                },
+                totalTareas() {
+                    return this.tareas.length;
+                }
+            },
+            methods: {
+                agregarTarea() {
+                    if(this.nuevaTarea != '') {
+                        this.tareas.push({
+                            id: this.tareas.length + 1,
+                            texto: this.nuevaTarea,
+                            completada: false
+                        });
+                        this.nuevaTarea = '';
                     }
+                }
             }
         });
     
