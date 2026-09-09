@@ -13,9 +13,11 @@
         ciudad: {{ ciudad }} <br>
         <p>Hola, mi nombre es {{ nombre }}, tengo {{ edad }} años y vivo en {{ ciudad }}.</p>
         <hr>
-        Contador : {{ contador }} 
+        Contador : {{ contadorValido }} <br>
         <button @click="contador++"> Incrementar </button> 
         <button @click="contador--"> Decrementar </button> 
+        <hr>
+
     </div>
     <script>
         var app = new Vue({
