@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
     <title>Practico 01 - PWA</title>
 </head>
 <body>
@@ -30,8 +32,27 @@
 
         Tareas pendientes: {{ tareasPendientes.length }} <br>
         Total de tareas: {{ totalTareas }}
+        <hr>
+        <h2>Eventos de Vue</h2>
+
+            <ul>
+                <li v-for="evento in listaEventos" :key="evento.id">
+                    {{ evento.nombre }} - {{ evento.timestamp }}
+                </li>
+            </ul>
+            <button @click="destruirVue">Destruir Vue</button>
+
     </div>
     <script>
+        var listaEventos = [];
+                    
+        function registrarEvento(nombre) {
+            listaEventos.push({
+                id: listaEventos.length + 1,
+                nombre: nombre,
+                timestamp: Date.now()
+            });
+        }
         var app = new Vue({
             el: '#mi-app',
             data: {
@@ -46,9 +67,11 @@
                             texto: 'Aprender Vue',
                             completada: false
                         }
-                    ]
-                
+                    ],
+                listaEventos: listaEventos,
+                ciclo: false
             },
+
             computed: {
                 contadorValido() {
                     if(this.contador < 0){
@@ -65,18 +88,92 @@
                     return this.tareas.length;
                 }
             },
+
             methods: {
-                agregarTarea() {
-                    if(this.nuevaTarea != '') {
-                        this.tareas.push({
-                            id: this.tareas.length + 1,
-                            texto: this.nuevaTarea,
-                            completada: false
-                        });
-                        this.nuevaTarea = '';
+                    agregarTarea() {
+                        if (this.nuevaTarea != '') {
+                            this.tareas.push({
+                                id: this.tareas.length + 1,
+                                texto: this.nuevaTarea,
+                                completada: false
+                            });
+                            this.nuevaTarea = '';
+                        }
+                    },
+
+                    destruirVue: function() {
+                        this.$destroy();
                     }
+                },
+
+            beforeCreate: function() {
+                registrarEvento('beforeCreate');
+            },
+
+            created: function() {
+                registrarEvento('created');
+            },
+
+            beforeUpdate: function() {
+                    if (this.ciclo) {
+                    return;
                 }
-            }
+                this.listaEventos.push({
+                    id: this.listaEventos.length + 1,
+                    nombre: 'beforeUpdate',
+                    timestamp: Date.now()
+                });
+
+            },
+
+            updated: function() {
+                    if (this.ciclo) {
+                    this.ciclo = false;
+                    return;
+                }
+                this.listaEventos.push({
+                    id: this.listaEventos.length + 1,
+                    nombre: 'updated',
+                    timestamp: Date.now()
+                });
+                this.ciclo = true;
+
+            },
+
+            beforeMount: function() {
+                this.listaEventos.push({
+                id: this.listaEventos.length + 1,
+                nombre: "beforeMount",
+                timestamp: Date.now(),
+            });
+            },
+
+            mounted: function() {
+                this.listaEventos.push({
+                id: this.listaEventos.length + 1,
+                nombre: "mounted",
+                timestamp: Date.now(),
+            });
+            },
+
+            beforeDestroy: function() {
+                    this.listaEventos.push({
+                    id: this.listaEventos.length + 1,
+                    nombre: 'beforeDestroy',
+                    timestamp: Date.now()
+                });
+
+            },
+
+            destroyed: function() {
+                    this.listaEventos.push({
+                    id: this.listaEventos.length + 1,
+                    nombre: 'destroyed',
+                    timestamp: Date.now()
+                });
+                console.log('listaEventos final:', this.listaEventos);
+            },
+
         });
     
     </script>
