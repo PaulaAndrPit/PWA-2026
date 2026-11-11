@@ -8,8 +8,26 @@ services:
     volumes:
       - ./backend/postgres:/var/lib/postgresql/data
     ports:
-      - "${DB_PORT}:5432"     
+      - "${POSTGRES_HOST_PORT}:5432"
     networks:
       red:
+
+  django:
+    image: pwa2026tp2:0.1
+    build:
+      context: ./config/django-image
+      dockerfile: Dockerfile
+    container_name: django
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/django:/usr/src/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - red
+
 networks:
   red:

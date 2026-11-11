@@ -1,2 +1,16 @@
+# Variables de entorno
 .env
-/backend/postgres
+
+# Datos de PostgreSQL
+backend/postgres/
+
+# Archivos Python
+__pycache__/
+*.pyc
+
+# Entornos virtuales
+venv/
+.venv/
+
+# Bases de datos SQLite
+*.sqlite3
